@@ -258,7 +258,7 @@
  */
 @media screen and (max-width: 600px) {
     :root {
-        --multiplier : .875;
+        --multiplier : .75;
     }
 }
 
