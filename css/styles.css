@@ -515,14 +515,20 @@ body {
 }
 
 body {
-    background-color            : var(--color-body);
-    -webkit-overflow-scrolling  : touch;
-    -webkit-text-size-adjust    : 100%;
-    -webkit-tap-highlight-color : rgba(0, 0, 0, 0);
-    -webkit-font-smoothing      : antialiased;
-    -moz-osx-font-smoothing     : grayscale;
+    background-color: #000; /* pure black base */
+    
+        background-repeat: repeat;
+        animation: shift 15s linear infinite;
+      }
+      @keyframes shift {
+        0% { background-position: 0 0; filter: brightness(1); }
+        50% { background-position: 200px 200px; filter: brightness(1.1); }
+        
+      
 }
 
+
+  
 p {
     font-size      : inherit;
     text-rendering : optimizeLegibility;
@@ -2655,7 +2661,7 @@ img.u-pull-left {
  * ------------------------------------------------------------------- */
 .text-pretitle {
     font-family    : var(--font-1);
-    font-size      : var(--text-sm);
+    font-size      : var(--text-xs);
     font-weight    : 400;
     color          : var(--color-white);
     text-transform : uppercase;
@@ -4056,7 +4062,7 @@ img.u-pull-left {
 
 .contact-links,
 .contact-social {
-    font-size   : var(--text-md);
+    font-size   : var(--text-sm);
     font-weight : 300;
     line-height : var(--vspace-1_25);
     color       : var(--color-text-light);
