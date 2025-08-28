@@ -305,60 +305,53 @@
 
    /* Smoothscroll
     * ------------------------------------------------------ */
-    const ssMoveTo = function(){
+    /* Smooth scroll using Lenis */
+const ssSmoothScroll = function(){
 
-        const easeFunctions = {
-            easeInQuad: function (t, b, c, d) {
-                t /= d;
-                return c * t * t + b;
-            },
-            easeOutQuad: function (t, b, c, d) {
-                t /= d;
-                return -c * t* (t - 2) + b;
-            },
-            easeInOutQuad: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
-                t--;
-                return -c/2 * (t*(t-2) - 1) + b;
-            },
-            easeInOutCubic: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
-                t -= 2;
-                return c/2*(t*t*t + 2) + b;
+    // create Lenis instance
+    const lenis = new Lenis({
+        duration: 1.2,           // scroll speed
+        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+        smoothWheel: true,
+        smoothTouch: false
+    });
+
+    // animate scroll
+    function raf(time){
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // hijack anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', e => {
+            const targetId = link.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                e.preventDefault();
+                lenis.scrollTo(target, { offset: 0, duration: 1.2 });
             }
-        }
-
-        const triggers = document.querySelectorAll('.smoothscroll');
-        
-        const moveTo = new MoveTo({
-            tolerance: 0,
-            duration: 1200,
-            easing: 'easeInOutCubic',
-            container: window
-        }, easeFunctions);
-
-        triggers.forEach(function(trigger) {
-            moveTo.registerTrigger(trigger);
         });
+    });
 
-    }; // end ssMoveTo
+};
 
 
    /* Initialize
     * ------------------------------------------------------ */
     (function ssInit() {
 
-        ssPreloader();
-        ssMobileMenu();
-        ssScrollSpy();
-        ssViewAnimate();
-        ssSwiper();
-        ssLightbox();
-        ssAlertBoxes();
-        ssMoveTo();
+    ssPreloader();
+    ssMobileMenu();
+    ssScrollSpy();
+    ssViewAnimate();
+    ssSwiper();
+    ssLightbox();
+    ssAlertBoxes();
+    // ssMoveTo(); // remove MoveTo
+    ssSmoothScroll(); // new smooth scroll
 
-    })();
+})();
 
 })(document.documentElement);
